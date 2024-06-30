@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200">
+    <nav class="flex justify-end gap-1 items-center pt-3">
+        <a href="/">
+            <button class="bg-red-600 text-white border-none rounded-md py-2 px-3 cursor-pointer">Home</button>
+        </a>
+    </nav>
+    <div class="w-[50%] bg-white mt-5 mx-auto rounded-lg p-6">
+        <div class="text-xl font-semibold mb-4">Employee Details</div>
+        <div id="employeeDetails"></div>
+        <a id="updateLink" href="#" class="bg-yellow-500 text-white py-2 px-4 rounded inline-block mt-4">Update</a>
+        <button id="deleteButton" class="bg-red-600 text-white py-2 px-4 rounded mt-4">Delete</button>
+    </div>
+
+    <script>
+        async function loadEmployee() {
+            const empid = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/api/employee/${empid}`);
+                const employee = await response.json();
+                if (response.ok) {
+                    document.getElementById('employeeDetails').innerHTML = `
+                        <p><strong>ID:</strong> ${empid}</p>
+                        <p><strong>Name:</strong> ${employee.name}</p>
+                        <p><strong>Position:</strong> ${employee.position}</p>
+                        <p><strong>Department:</strong> ${employee.department}</p>
+                    `;
+                    document.getElementById('updateLink').href = `/update/${empid}`;
+                    document.getElementById('deleteButton').addEventListener('click', () => deleteEmployee(empid));
+                } else {
+                    document.getElementById('employeeDetails').innerHTML = `<p>${employee.error}</p>`;
+                }
+            } catch (error) {
+                console.error('Error loading employee:', error);
+            }
+        }
+
+        async function deleteEmployee(empid) {
+            try {
+                const response = await fetch(`/api/delete/${empid}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.message); 
+                    window.location.href = '/'; 
+                } else {
+                    const error = await response.json();
+                    console.error('Error deleting employee:', error.message);
+                    alert('Failed to delete employee: ' + error.message); 
+                }
+            } catch (error) {
+                console.error('Error deleting employee:', error);
+                alert('Failed to delete employee: ' + error.message); 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEmployee);
+    </script>
+</body>
+</html>

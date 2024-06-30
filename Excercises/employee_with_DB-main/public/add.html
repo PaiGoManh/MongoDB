@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200">
+    <nav class="flex justify-end gap-1 items-center pt-3">
+        <a href="/">
+            <button class="bg-red-600 text-white border-none rounded-md py-2 px-3 cursor-pointer">Home</button>
+        </a>
+    </nav>
+    <div class="w-[50%] bg-white mt-5 mx-auto rounded-lg p-6">
+        <div class="text-xl font-semibold mb-4">Add New Employee</div>
+        <form method="POST" action="/submit-form">
+            <div class="mb-4">
+                <label for="id" class="block mb-1">ID</label>
+                <input type="text" name="empid" id="empid" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="name" class="block mb-1">Name</label>
+                <input type="text" name="name" id="name" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="position" class="block mb-1">Position</label>
+                <input type="text" name="position" id="position" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="department" class="block mb-1">Department</label>
+                <input type="text" name="department" id="department" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded">Add Employee</button>
+        </form>
+    </div>
+</body>
+</html>

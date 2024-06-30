@@ -1,6 +1,8 @@
 const Router=require('express');
 const sample =require ('./Models/sample.js')
 var router=Router();
+
+
 router.post('/create',async(req,res)=>{
    try{
        const data=req.body;
@@ -13,19 +15,11 @@ router.post('/create',async(req,res)=>{
    }
 })
 router.get('/read',async(req,res)=>{
-
-
    //const id = req.params.id;
   // console.log(id);
    //const details = await sample.findOne({field1: id});
    const details = await sample.find({});
-  console.log("details",details);
-
-
+   console.log("details",details);
    res.json(details);
-
-
-
-
 })
 module.exports=router;

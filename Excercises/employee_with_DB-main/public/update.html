@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200">
+    <nav class="flex justify-end gap-1 items-center pt-3">
+        <a href="/">
+            <button class="bg-red-600 text-white border-none rounded-md py-2 px-3 cursor-pointer">Home</button>
+        </a>
+    </nav>
+    <div class="w-[50%] bg-white mt-5 mx-auto rounded-lg p-6">
+        <div class="text-xl font-semibold mb-4">Update Employee</div>
+        <form id="updateForm">
+            <div class="mb-4">
+                <label for="empid" class="block mb-1">Employee ID</label>
+                <input type="text" name="empid" id="empid" class="w-full border border-gray-300 rounded py-2 px-3" required readonly />
+            </div>
+            <div class="mb-4">
+                <label for="name" class="block mb-1">Name</label>
+                <input type="text" name="name" id="name" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="position" class="block mb-1">Position</label>
+                <input type="text" name="position" id="position" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="department" class="block mb-1">Department</label>
+                <input type="text" name="department" id="department" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded">Update</button>
+        </form>
+    </div>
+
+    <script>
+        async function loadEmployee() {
+            const empid = window.location.pathname.split('/').pop(); 
+            console.log('Loading employee with ID:', empid);
+            try {
+                const response = await fetch(`/api/employee/${empid}`); 
+                const employee = await response.json();
+                console.log('Fetched employee data:', employee);
+                if (response.ok) {
+                    document.getElementById('empid').value = employee.empid || ''; 
+                    document.getElementById('name').value = employee.name || '';
+                    document.getElementById('position').value = employee.position || '';
+                    document.getElementById('department').value = employee.department || '';
+                } else {
+                    console.error('Error:', employee.error);
+                }
+            } catch (error) {
+                console.error('Error loading employee:', error);
+            }
+        }
+
+        async function updateEmployee(event) {
+            event.preventDefault();
+            const empid = window.location.pathname.split('/').pop(); // Changed from id to empid
+            const data = {
+                name: document.getElementById('name').value,
+                position: document.getElementById('position').value,
+                department: document.getElementById('department').value
+            };
+            console.log('Updating employee with data:', data);
+            try {
+                const response = await fetch(`/api/update/${empid}`, { 
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (response.ok) {
+                    window.location.href = `/employee/${empid}`;
+                } else {
+                    console.error('Error updating employee:', await response.json());
+                }
+            } catch (error) {
+                console.error('Error updating employee:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEmployee();
+            document.getElementById('updateForm').addEventListener('submit', updateEmployee);
+        });
+    </script>
+</body>
+</html>
