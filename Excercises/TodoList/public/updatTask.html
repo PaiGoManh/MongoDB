@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200">
+    <nav class="flex justify-end gap-1 items-center pt-3">
+        <a href="/tasks">
+            <button class="bg-red-600 text-white border-none rounded-md py-2 px-3 cursor-pointer">Home</button>
+        </a>
+        <a href="/addtask">
+            <button class="bg-blue-600 text-white border-none rounded-md py-2 px-3 cursor-pointer">Add Task</button>
+        </a>
+    </nav>
+    <div class="w-[50%] bg-white mt-5 mx-auto rounded-lg p-6">
+        <div class="text-xl font-semibold mb-4">Update Task</div>
+        <form method="POST" id="updateTaskForm">
+            <div class="mb-4">
+                <label for="title" class="block mb-1">Title</label>
+                <input type="text" name="title" id="title" class="w-full border border-gray-300 rounded py-2 px-3" required />
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block mb-1">Description</label>
+                <textarea name="description" id="description" class="w-full border border-gray-300 rounded py-2 px-3" required></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded">Update Task</button>
+        </form>
+        <div id="feedback" class="mt-4 text-center"></div>
+    </div>
+
+    <script>
+        async function loadTask() {
+            const id = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/api/task/${id}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load task: ${response.statusText}`);
+                }
+                const task = await response.json();
+                document.getElementById('title').value = task.title;
+                document.getElementById('description').value = task.description;
+            } catch (error) {
+                console.error('Error loading task:', error);
+                document.getElementById('feedback').innerText = 'Error loading task.';
+                document.getElementById('feedback').className = 'text-red-600';
+            }
+        }
+
+        async function updateTask(event) {
+            event.preventDefault();
+            const id = window.location.pathname.split('/').pop();
+            const data = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                const response = await fetch(`/api/task/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    document.getElementById('feedback').innerText = 'Task updated successfully!';
+                    document.getElementById('feedback').className = 'text-green-600';
+                } else {
+                    const errorData = await response.json();
+                    document.getElementById('feedback').innerText = `Error: ${errorData.error}`;
+                    document.getElementById('feedback').className = 'text-red-600';
+                }
+            } catch (error) {
+                console.error('Error updating task:', error);
+                document.getElementById('feedback').innerText = 'Error updating task.';
+                document.getElementById('feedback').className = 'text-red-600';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTask();
+            document.getElementById('updateTaskForm').addEventListener('submit', updateTask);
+        });
+    </script>
+</body>
+</html>

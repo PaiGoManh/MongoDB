@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Update Blog</h1>
+        <form id="blogForm" action="/update-blog" method="POST">
+            <input type="hidden" id="BlogID" name="BlogID" value="">
+            <div class="mb-4">
+                <label for="title" class="block text-gray-700">Title</label>
+                <input type="text" id="title" name="title" class="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                    required>
+            </div>
+            <div class="mb-4">
+                <label for="author" class="block text-gray-700">Author</label>
+                <input type="text" id="author" name="author" class="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                    required>
+            </div>
+            <div class="mb-4">
+                <label for="content" class="block text-gray-700">Content</label>
+                <textarea id="content" name="content" rows="5"
+                    class="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500"
+                    required></textarea>
+            </div>
+            <button type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">Update</button>
+        </form>
+        <div class="mt-4">
+            <button id="deleteBtn"
+                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none">Delete</button>
+        </div>
+    </div>
+
+    <script>
+        async function fetchBlogDetails() {
+            const id = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/api/blog/${id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch blog details');
+                }
+                const data = await response.json();
+                document.getElementById('BlogID').value = data.BlogID;
+                document.getElementById('title').value = data.title;
+                document.getElementById('author').value = data.author;
+                document.getElementById('content').value = data.content;
+            } catch (error) {
+                console.error('Error fetching blog details:', error);
+                document.body.innerHTML = '<p>Failed to load blog details.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchBlogDetails);
+
+        document.getElementById('deleteBtn').addEventListener('click', async () => {
+            const id = document.getElementById('BlogID').value;
+            try {
+                const response = await fetch(`/api/blog/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to delete blog');
+                }
+                window.location.href = '/'; // Redirect to homepage after successful delete
+            } catch (error) {
+                console.error('Error deleting blog:', error);
+                alert('Failed to delete blog');
+            }
+        });
+    </script>
+</body>
+
+</html>

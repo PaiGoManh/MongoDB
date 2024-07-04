@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-3/4">
+        <p id="blogId" class="text-gray-600 text-lg mb-4">Blog ID: </p>
+        <h1 id="title" class="text-4xl font-bold text-gray-800 mb-4">Blog Title</h1>
+        <p id="author" class="text-gray-600 text-lg mb-4">By Author</p>
+        <div id="content" class="text-gray-700 text-lg mb-6">Blog Content</div>
+        <div class="flex justify-between">
+            <div>
+                <a href="/" class="bg-blue-500 text-white px-6 py-2 rounded-full text-lg hover:bg-blue-600">Go to Home</a>
+                <a href="/blog" class="bg-green-500 text-white px-6 py-2 rounded-full text-lg hover:bg-green-600 ml-4">Create New Blog</a>
+            </div>
+            <div>
+                <button id="updateBtn" class="bg-yellow-500 text-white px-6 py-2 rounded-full text-lg hover:bg-yellow-600">Update</button>
+                <button id="deleteBtn" class="bg-red-500 text-white px-6 py-2 rounded-full text-lg hover:bg-red-600 ml-4">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchBlogDetails() {
+            const id = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/blog/${id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch blog details');
+                }
+                const data = await response.json();
+                document.getElementById('blogId').textContent = `Blog ID: ${data.BlogID}`;
+                document.getElementById('title').textContent = data.title;
+                document.getElementById('author').textContent = `By ${data.author}`;
+                document.getElementById('content').textContent = data.content;
+            } catch (error) {
+                console.error('Error fetching blog details:', error);
+                document.body.innerHTML = '<p>Failed to load blog details.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchBlogDetails);
+
+        // Example Update and Delete Button Click Handlers (replace with your logic)
+        document.getElementById('updateBtn').addEventListener('click', () => {
+            const id = window.location.pathname.split('/').pop();
+            window.location.href = `/update-blog/${id}`;
+        });
+
+        document.getElementById('deleteBtn').addEventListener('click', async () => {
+            const id = window.location.pathname.split('/').pop();
+            try {
+                const response = await fetch(`/api/blog/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to delete blog');
+                }
+                window.location.href = '/'; // Redirect to homepage after successful delete
+            } catch (error) {
+                console.error('Error deleting blog:', error);
+                alert('Failed to delete blog');
+            }
+        });
+    </script>
+</body>
+
+</html>

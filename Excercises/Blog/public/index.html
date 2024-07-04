@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to my blog application</h1>
+        <p class="text-gray-600 text-lg">Explore amazing content and share your thoughts!</p>
+        <div class="mt-6">
+            <a href="/blog" class="bg-blue-500 text-white px-6 py-2 rounded-full text-lg hover:bg-blue-600">Create Blog</a>
+        </div>
+        <div class="mt-6">
+            <input type="text" id="BlogID" name="BlogID" class="border-2 border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
+                placeholder="Enter Blog ID to View">
+            <button class="ml-2 bg-blue-500 text-white px-6 py-2 rounded-md text-lg hover:bg-blue-600" onclick="redirectToBlog()">
+                Read Blog
+            </button>
+        </div>
+    </div>
+    <script>
+        function redirectToBlog() {
+            const BlogId = document.getElementById('BlogID').value;
+            const url = `/blog/${BlogId}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>
