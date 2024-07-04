@@ -27,7 +27,6 @@
           <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
               <div class="pm-certificate-name underline margin-0 col-xs-8 text-center">
                 <span id="name" class="pm-name-text bold">
@@ -35,14 +34,12 @@
                 </span>
               </div>
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
             </div>
           </div>
           <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
               <div class="pm-earned col-xs-8 text-center">
                 <span class="pm-earned-text padding-0 block cursive">has earned</span>
@@ -51,7 +48,6 @@
                 </span>
               </div>
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
               <div class="col-xs-12"></div>
             </div>
@@ -59,21 +55,18 @@
           <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
               <div class="pm-course-title col-xs-8 text-center">
                 <span class="pm-earned-text block cursive">while completing the training course
                   entitled</span>
               </div>
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
             </div>
           </div>
           <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-2">
-                <!-- LEAVE EMPTY -->
               </div>
               <div class="pm-course-title underline col-xs-8 text-center">
                 <span id="course" class="pm-credits-text block bold sans">
@@ -123,7 +116,6 @@
         throw new Error('Failed to fetch certificate details');
     }
     const data = await response.json();
-    // Display the certificate details
     document.getElementById('ID').textContent = data.certid;
     document.getElementById('course').textContent = data.coursename;
     document.getElementById('name').textContent = data.name;
@@ -135,11 +127,7 @@
 }
     }
 
-        document.addEventListener('DOMContentLoaded', fetchDetails);
-        // Add event listener to the button to redirect to the home page
-        // document.getElementById('homeButton').addEventListener('click', function() {
-        //     window.location.href = '/'; // Replace with the URL you want to redirect to
-        // });
+        document.addEventListener('DOMContentLoaded', fetchDetails);;
   </script>
 </body>
 

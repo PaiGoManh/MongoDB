@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const sample = require('../Models/Blogs'); // Replace with your model
+const sample = require('../Models/Blogs'); 
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
@@ -62,7 +62,7 @@ router.delete('/api/blog/:id', async (req, res) => {
         if (!deletedBlog) {
             return res.status(404).json({ message: 'Blog not found' });
         }
-        res.status(204).end(); // No content response after successful deletion
+        res.status(204).end(); 
     } catch (error) {
         console.error('Error deleting blog:', error);
         res.status(500).json({ message: 'Failed to delete blog' });

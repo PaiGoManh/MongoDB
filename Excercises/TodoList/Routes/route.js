@@ -4,14 +4,11 @@ const router = express.Router();
 const path = require('path');
 const Task = require('../Models/todo');
 
-// Serve static files
 router.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Middleware for parsing JSON and URL-encoded form data
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-// Routes
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'home.html'));
 });
@@ -36,7 +33,6 @@ router.post('/submit-form', async (req, res) => {
 });
 
 
-// GET /api/tasks - Retrieve all tasks
 router.get('/api/tasks', async (req, res) => {
     try {
         const tasks = await Task.find();
@@ -47,12 +43,10 @@ router.get('/api/tasks', async (req, res) => {
     }
 });
 
-// DELETE /api/task/:id - Delete a task
 router.delete('/api/task/:id', async (req, res) => {
     const taskId = req.params.id;
 
     try {
-        // Attempt to delete the task by its _id
         const deletedTask = await Task.findByIdAndDelete(taskId);
 
         if (!deletedTask) {
@@ -66,7 +60,6 @@ router.delete('/api/task/:id', async (req, res) => {
     }
 });
 
-// PUT /api/task/:id - Update a task
 router.put('/api/task/:id', async (req, res) => {
     const id = req.params.id;
     const { title, description } = req.body;

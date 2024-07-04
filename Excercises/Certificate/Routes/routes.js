@@ -3,17 +3,14 @@ const router = express.Router();
 const path = require('path');
 const sample = require('../model/cert.js');
 
-// GET homepage
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// GET issue certificate form
 router.get('/issue', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'issueCertificate.html'));
 });
 
-// POST form submission
 router.post('/submit-form', async (req, res) => {
     try {
         const data = req.body;
@@ -26,17 +23,14 @@ router.post('/submit-form', async (req, res) => {
     }
 });
 
-// GET thank you page
 router.get('/thank-you', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'formsubmitted.html'));
 });
 
-// GET all certificates (replace with your logic)
 router.get('/certificate', (req, res) => {
-    res.json(certificates); // Assuming certificates is defined elsewhere
+    res.json(certificates)
 });
 
-// GET single certificate by ID
 router.get("/certificate/:id", async (req, res) => {
     const id = req.params.id;
     try {
@@ -51,7 +45,6 @@ router.get("/certificate/:id", async (req, res) => {
     }
 });
 
-// GET single certificate by ID (API endpoint)
 router.get('/api/certificate/:id', async (req, res) => {
     const id = req.params.id;
     try {

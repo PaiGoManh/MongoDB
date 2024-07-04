@@ -2,10 +2,7 @@
 <html>
 
 <head>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <script src="/app.js"></script> -->
-    
-    
+    <script src="https://cdn.tailwindcss.com"></script>    
 </head>
 
 <body>
@@ -26,17 +23,10 @@
 
         <script>
           function redirectToCertificate() {
-            // Get the certificate ID from the input field
             const certificateId = document.getElementById('certificateID').value;
-
-            // Construct the URL with the certificate ID
             const url = `/certificate/${certificateId}`;
-
             console.log(certificateId);
-
             console.log(url);
-
-            // Redirect to the constructed URL
             window.location.href = url;
         }
         </script>

@@ -46,8 +46,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', fetchBlogDetails);
-
-        // Example Update and Delete Button Click Handlers (replace with your logic)
         document.getElementById('updateBtn').addEventListener('click', () => {
             const id = window.location.pathname.split('/').pop();
             window.location.href = `/update-blog/${id}`;
@@ -62,7 +60,7 @@
                 if (!response.ok) {
                     throw new Error('Failed to delete blog');
                 }
-                window.location.href = '/'; // Redirect to homepage after successful delete
+                window.location.href = '/'; 
             } catch (error) {
                 console.error('Error deleting blog:', error);
                 alert('Failed to delete blog');
